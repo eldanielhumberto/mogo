@@ -2,17 +2,20 @@ package files
 
 import (
 	"os"
+	"path/filepath"
 	"strings"
 )
 
 func ParseDirectoryPath(directory string) string {
-	runes := []rune(directory)
-	if runes[0] != '.' && runes[1] != '/' {
-		directory = "./" + directory
+	directory = filepath.Clean(directory)
+
+	if filepath.IsAbs(directory) || directory == "." {
+		return directory
 	}
 
-	if runes[len(runes)-1] == '/' {
-		directory = string(runes[:len(runes)-1])
+	prefix := "." + string(filepath.Separator)
+	if !strings.HasPrefix(directory, prefix) {
+		directory = prefix + directory
 	}
 
 	return directory
