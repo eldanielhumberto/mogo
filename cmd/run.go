@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/eldanielhumberto/mogo/internal/helpers/commands"
 	"github.com/spf13/cobra"
 )
 
@@ -14,9 +15,13 @@ var runCmd = &cobra.Command{
 			fmt.Println("Usage: mogo run [workspace] [command]")
 			return
 		}
+
 		workspace := args[0]
 		command := args[1]
-		fmt.Printf("Executing command '%s' in workspace '%s'\n", command, workspace)
+
+		if err := commands.RunCommand(workspace, command); err != nil {
+			fmt.Printf("Error running command: %v\n", err)
+		}
 	},
 }
 
