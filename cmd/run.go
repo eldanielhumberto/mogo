@@ -4,21 +4,32 @@ import (
 	"fmt"
 
 	"github.com/eldanielhumberto/mogo/internal/helpers/commands"
+	"github.com/eldanielhumberto/mogo/internal/helpers/settings"
 	"github.com/spf13/cobra"
 )
 
 var runCmd = &cobra.Command{
-	Use:   "run [workspace] [command]",
+	Use:   "run [command]",
 	Short: "Execute a command from a workspace",
 	Run: func(cmd *cobra.Command, args []string) {
-		if len(args) < 2 {
-			fmt.Println("Usage: mogo run [workspace] [command]")
+		if !settings.CheckSettingsFileExists() {
+			fmt.Println("Settings file not found")
 			return
 		}
 
-		workspace := args[0]
-		command := args[1]
+		if len(args) == 0 {
+			fmt.Println("Usage: mogo run [command] [flags]")
+			return
+		}
 
+		command := args[0]
+		workspace, _ := cmd.Flags().GetString("workspace")
+		if workspace == "" {
+			fmt.Printf("Excute command '%s' in parallel\n\n", args[0])
+			return
+		}
+
+		fmt.Printf("Excute command '%s' in workspace '%s'\n\n", command, workspace)
 		if err := commands.RunCommand(workspace, command); err != nil {
 			fmt.Printf("Error running command: %v\n", err)
 		}
@@ -26,5 +37,6 @@ var runCmd = &cobra.Command{
 }
 
 func init() {
+	runCmd.Flags().StringP("workspace", "w", "", "workspace name")
 	rootCmd.AddCommand(runCmd)
 }
