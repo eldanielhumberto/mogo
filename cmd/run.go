@@ -29,7 +29,6 @@ var runCmd = &cobra.Command{
 			return
 		}
 
-		fmt.Printf("Excute command '%s' in workspace '%s'\n\n", command, workspace)
 		if err := commands.RunCommand(workspace, command); err != nil {
 			fmt.Printf("Error running command: %v\n", err)
 		}

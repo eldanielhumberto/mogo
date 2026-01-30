@@ -11,6 +11,8 @@ import (
 )
 
 func RunCommand(workspace, command string) error {
+	fmt.Printf("Excute command '%s' in workspace '%s'\n\n", command, workspace)
+
 	settings, err := settings.ReadSettingsFile()
 	if err != nil {
 		return err
