@@ -25,7 +25,10 @@ var runCmd = &cobra.Command{
 		command := args[0]
 		workspace, _ := cmd.Flags().GetString("workspace")
 		if workspace == "" {
-			fmt.Printf("Excute command '%s' in parallel\n\n", args[0])
+			if err := commands.RunCommandInParallel(command); err != nil {
+				fmt.Printf("Error running command: %v\n", err)
+			}
+
 			return
 		}
 
