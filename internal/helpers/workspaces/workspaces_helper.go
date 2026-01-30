@@ -10,7 +10,7 @@ import (
 
 func AddWorkspace(directory string) error {
 	if !files.IsDirectory(directory) {
-		return errors.New("Directory " + directory + " is not a valid workspace\n")
+		return errors.New("Directory " + directory + " is not a valid workspace")
 	}
 
 	directoryName := files.ParseDirectoryName(directory)
