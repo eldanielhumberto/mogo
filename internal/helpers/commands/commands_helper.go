@@ -23,8 +23,7 @@ type prefixWriter struct {
 
 func (pw *prefixWriter) Write(p []byte) (n int, err error) {
 	pterm.NewRGB(15, 199, 209).Printf("%s | ", pw.context)
-	pterm.DefaultParagraph.Printf("%s ", string(p))
-	pterm.Println()
+	fmt.Print(string(p))
 
 	return len(p), nil
 }
